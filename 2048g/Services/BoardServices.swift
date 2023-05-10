@@ -26,7 +26,7 @@ final class BoardServices {
         if checkForLose() { return }
         
         while true {
-            printMatrix()
+            //printMatrix()
             let randRow = Int.random(in: 0..<board.count)
             let randCol = Int.random(in: 0..<board[randRow].count)
             
@@ -38,16 +38,16 @@ final class BoardServices {
         
     }
     
-        private func printMatrix() {
-            var string = String("")
-            for i in 0..<board.count {
-                for j in 0..<board[i].count {
-                    string += String("\(board[i][j].value )    ")
-                }
-                print(string)
-                string = ""
-            }
-        }
+//        private func printMatrix() {
+//            var string = String("")
+//            for i in 0..<board.count {
+//                for j in 0..<board[i].count {
+//                    string += String("\(board[i][j].value )    ")
+//                }
+//                print(string)
+//                string = ""
+//            }
+//        }
     
     
     func checkForLose() -> Bool {
@@ -62,7 +62,7 @@ final class BoardServices {
                     }
                 }
                 
-                if row < board.count {
+                if row < board.count-1{
                     let bottomTile = board[row+1][col].value
                     if bottomTile == currentTile || bottomTile == 0 || (currentTile == 0 && bottomTile != 0) {
                         return false

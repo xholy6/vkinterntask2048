@@ -102,16 +102,14 @@ final class GameViewController: UIViewController {
     //MARK: - Private functions
     
     private func moveLeft() {
-        var isMovePossible = false
+        var isMovePossible = !boardServices.checkForLose()
         for row in 0..<boardServices.board.count {
             for col in (0..<boardServices.board[row].count).reversed() {
                 if col <= 0 {
                     break
                 }
-                if tryToSummarizeTiles(tile1: boardServices.board[row][col-1],
-                                       tile2: boardServices.board[row][col]) {
-                    isMovePossible = true
-                }
+                 tryToSummarizeTiles(tile1: boardServices.board[row][col-1],
+                                       tile2: boardServices.board[row][col])
             }
         }
         if !isMovePossible {
@@ -120,16 +118,14 @@ final class GameViewController: UIViewController {
         }
     }
     private func moveRight() {
-        var isMovePossible = false
+        var isMovePossible = !boardServices.checkForLose()
         for row in 0..<boardServices.board.count {
             for col in 0..<boardServices.board[row].count {
                 if col >= boardServices.board[row].count - 1 {
                     break
                 }
-                if tryToSummarizeTiles(tile1: boardServices.board[row][col+1],
-                                       tile2: boardServices.board[row][col]) {
-                    isMovePossible = true
-                }
+                tryToSummarizeTiles(tile1: boardServices.board[row][col+1],
+                                       tile2: boardServices.board[row][col])
             }
         }
         if !isMovePossible {
@@ -139,16 +135,14 @@ final class GameViewController: UIViewController {
     }
     
     private func moveUp() {
-        var isMovePossible = false
+        var isMovePossible = !boardServices.checkForLose()
         for col in 0..<boardServices.board[0].count {
             for row in (0..<boardServices.board.count).reversed() {
                 if row <= 0 {
                     break
                 }
-                if tryToSummarizeTiles(tile1: boardServices.board[row-1][col],
-                                       tile2: boardServices.board[row][col]) {
-                    isMovePossible = true
-                }
+                tryToSummarizeTiles(tile1: boardServices.board[row-1][col],
+                                       tile2: boardServices.board[row][col])
             }
         }
         if !isMovePossible {
@@ -158,16 +152,14 @@ final class GameViewController: UIViewController {
     }
     
     private func moveDown() {
-        var isMovePossible = false
+        var isMovePossible = !boardServices.checkForLose()
         for row in 0..<boardServices.board.count {
             for col in 0..<boardServices.board[row].count {
                 if row >= boardServices.board[col].count - 1 {
                     break
                 }
-                if tryToSummarizeTiles(tile1: boardServices.board[row+1][col],
-                                       tile2: boardServices.board[row][col]) {
-                    isMovePossible = true
-                }
+                 tryToSummarizeTiles(tile1: boardServices.board[row+1][col],
+                                       tile2: boardServices.board[row][col])
             }
         }
         if !isMovePossible {
@@ -177,8 +169,7 @@ final class GameViewController: UIViewController {
     }
     
     private func tryToSummarizeTiles(tile1: Tile, tile2: Tile) -> Bool {
-        var flag = boardServices.checkForLose()
-        if !flag {
+        let isMovePossible = !boardServices.checkForLose()
             if tile1.value == 0 {
                 tile1.value = tile2.value
                 tile2.value = 0
@@ -192,11 +183,7 @@ final class GameViewController: UIViewController {
                 gameScreen.updateCurrentScoreLabel(currentScore)
                 storeScore()
             }
-            flag = true
-            return true
-        } else {
-            return false
-        }
+        return isMovePossible
 
     }
     
@@ -218,7 +205,8 @@ final class GameViewController: UIViewController {
                                      buttonText: "Again" ) { [weak self] _ in
             guard let self = self else { return }
             self.boardServices.clearBoard()
-            self.boardServices.addRandomTile()
+            self.boardServices.fillStartingBoard()
+            self.collectionView.reloadData()
         }
         loseAlertPresenter?.requestShowLoseAlert(alertModel: alertModel)
     }

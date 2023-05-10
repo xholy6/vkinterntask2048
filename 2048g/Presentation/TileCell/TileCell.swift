@@ -17,7 +17,7 @@ final class TileCell: UICollectionViewCell {
         super.init(frame: frame)
         contentView.addSubview(label)
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = .systemFont(ofSize: 20)
+        label.font = .systemFont(ofSize: 40, weight: .heavy)
         NSLayoutConstraint.activate([
             label.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
             label.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
