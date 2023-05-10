@@ -204,9 +204,11 @@ final class GameViewController: UIViewController {
                                      message: "Try ur luck next time",
                                      buttonText: "Again" ) { [weak self] _ in
             guard let self = self else { return }
+            self.currentScore = 0
             self.boardServices.clearBoard()
             self.boardServices.fillStartingBoard()
             self.collectionView.reloadData()
+            self.gameScreen.updateCurrentScoreLabel(0)
         }
         loseAlertPresenter?.requestShowLoseAlert(alertModel: alertModel)
     }
